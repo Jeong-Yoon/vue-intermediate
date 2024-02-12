@@ -20,8 +20,10 @@ export default {
     }
   },
   methods: {
-    removeTodo: function() {
-      console.log('remove Items');
+    removeTodo: function(todoItem, index) {
+      console.log(todoItem, index);
+      localStorage.removeItem(todoItem);
+      this.todoItems.splice(index, 1);
     }
   },
   created: function() { // 인스턴스가 생성되자마자 호출되는 라이프사이클 훅(생성되는 시점에 로직이 실행)
