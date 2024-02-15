@@ -1,7 +1,7 @@
 <template>
   <div>
-    <ul>
-      <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem.item" class="shadow">
+    <transition-group name="list" tag="ul">
+      <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item" class="shadow">
         <!-- v-bind:class="{class명: 조건}" : 조건이 true면 해당 class가 적용 -->
         <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
@@ -10,44 +10,30 @@
           <i class="fas fa-trash-alt"></i>
         </span>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
 <script>
 export default {
-  data: function() {
-    return {
-      todoItems: []
-    }
-  },
+  props: ['propsdata'],
   methods: {
     removeTodo: function(todoItem, index) {
-      console.log(todoItem, index);
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);
+      // console.log(todoItem, index);
+      // localStorage.removeItem(todoItem);
+      // this.todoItems.splice(index, 1);
+      this.$emit('removeItem', todoItem, index);
     },
     toggleComplete: function(todoItem, index) {
-      todoItem.completed = !todoItem.completed;
+      // todoItem.completed = !todoItem.completed;
       // update가 없기 때문에 지우고 다시 저장
       // 로컬 스토리지에 데이터를 갱신
-      localStorage.removeItem(todoItem.item);
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+      // localStorage.removeItem(todoItem.item);
+      // localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
       // console.log(todoItem);
+      this.$emit('toggleItem', todoItem, index);
     }
   },
-  created: function() { // 인스턴스가 생성되자마자 호출되는 라이프사이클 훅(생성되는 시점에 로직이 실행)
-    // console.log('created');
-    if(localStorage.length > 0) {
-      for(var i = 0; i < localStorage.length; i++) {
-        if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
-          this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-          // this.todoItems.push(localStorage.key(i));
-        }
-        // console.log(localStorage.key(i));
-      }
-    }
-  }
 }
 </script>
 
@@ -83,5 +69,14 @@ export default {
  .textCompleted {
   text-decoration: line-through;
   color: #b3adad;
+ }
+
+ /* 리스트 아이템 transition 효과 */
+ .list-enter-active, .list-leave-active {
+  transition: all 1s;
+ }
+ .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
  }
 </style>
