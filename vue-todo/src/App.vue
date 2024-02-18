@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     addOneItem: function(todoItem) {
-      var obj = {completed: false, item: todoItem};
+      const obj = {completed: false, item: todoItem}; // const는 오버라이딩이 불가능하기 때문에 디버깅에 도움이 되어 안전한 프로그래밍 가능
       // console.log(this.newTodoItem);
       // 저장하는 로직
       // localStorage.setItem(this.newTodoItem, this.newTodoItem);
@@ -62,7 +62,7 @@ export default {
   created: function() { // 인스턴스가 생성되자마자 호출되는 라이프사이클 훅(생성되는 시점에 로직이 실행)
     // console.log('created');
     if(localStorage.length > 0) {
-      for(var i = 0; i < localStorage.length; i++) {
+      for(let i = 0; i < localStorage.length; i++) { // 반복문은 값이 계속 증가해야 하기 때문에 let
         if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
           this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
           // this.todoItems.push(localStorage.key(i));
