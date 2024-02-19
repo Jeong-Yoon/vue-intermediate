@@ -28,13 +28,13 @@ import TodoFooter from './components/TodoFooter.vue';
 // });
 
 export default {
-  data: function() {
+  data() { // data: function() {
     return {
       todoItems: []
     }
   },
   methods: {
-    addOneItem: function(todoItem) {
+    addOneItem(todoItem) { // == addOneItem: function(todoItem)
       const obj = {completed: false, item: todoItem}; // const는 오버라이딩이 불가능하기 때문에 디버깅에 도움이 되어 안전한 프로그래밍 가능
       // console.log(this.newTodoItem);
       // 저장하는 로직
@@ -42,11 +42,11 @@ export default {
       localStorage.setItem(todoItem, JSON.stringify(obj));
       this.todoItems.push(obj);
     },
-    removeOneItem: function(todoItem, index) {
+    removeOneItem(todoItem, index) {
       localStorage.removeItem(todoItem.item);
       this.todoItems.splice(index, 1);
     },
-    toggleOneItem: function(todoItem, index) {
+    toggleOneItem(todoItem, index) {
       // todoItem.completed = !todoItem.completed;
       // props를 내리기 위해 event bus를 넘기고, 컴포넌트 사이의 경계를 명확히 함
       this.todoItems[index].completed = !this.todoItems[index].completed;
@@ -54,12 +54,12 @@ export default {
       localStorage.removeItem(todoItem.item);
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     },
-    clearAllItems: function() {
+    clearAllItems() {
       localStorage.clear();
       this.todoItems = [];
     }
   },
-  created: function() { // 인스턴스가 생성되자마자 호출되는 라이프사이클 훅(생성되는 시점에 로직이 실행)
+  created() { // 인스턴스가 생성되자마자 호출되는 라이프사이클 훅(생성되는 시점에 로직이 실행)
     // console.log('created');
     if(localStorage.length > 0) {
       for(let i = 0; i < localStorage.length; i++) { // 반복문은 값이 계속 증가해야 하기 때문에 let
@@ -73,10 +73,10 @@ export default {
   },
   components: {
     // 컴포넌트 태그명: 컴포넌트 내용
-    'TodoHeader': TodoHeader, 
-    'TodoInput': TodoInput,
-    'TodoList': TodoList,
-    'TodoFooter': TodoFooter,
+    TodoHeader, // 'TodoHeader': TodoHeader, 객체의 속성명과 값 명이 동일할 때 축약이 가능하다.
+    TodoInput,
+    TodoList,
+    TodoFooter,
   }
 }
 </script>

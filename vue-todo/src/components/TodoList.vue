@@ -18,13 +18,13 @@
 export default {
   props: ['propsdata'],
   methods: {
-    removeTodo: function(todoItem, index) {
+    removeTodo(todoItem, index) {
       // console.log(todoItem, index);
       // localStorage.removeItem(todoItem);
       // this.todoItems.splice(index, 1);
       this.$emit('removeItem', todoItem, index);
     },
-    toggleComplete: function(todoItem, index) {
+    toggleComplete(todoItem, index) {
       // todoItem.completed = !todoItem.completed;
       // update가 없기 때문에 지우고 다시 저장
       // 로컬 스토리지에 데이터를 갱신
