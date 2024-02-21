@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item" class="shadow">
+      <li v-for="(todoItem, index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
         <!-- v-bind:class="{class명: 조건}" : 조건이 true면 해당 class가 적용 -->
         <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
@@ -22,7 +22,8 @@ export default {
       // console.log(todoItem, index);
       // localStorage.removeItem(todoItem);
       // this.todoItems.splice(index, 1);
-      this.$emit('removeItem', todoItem, index);
+      // this.$emit('removeItem', todoItem, index);
+      this.$store.commit('removeOneItem', {todoItem, index});
     },
     toggleComplete(todoItem, index) {
       // todoItem.completed = !todoItem.completed;
@@ -31,7 +32,8 @@ export default {
       // localStorage.removeItem(todoItem.item);
       // localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
       // console.log(todoItem);
-      this.$emit('toggleItem', todoItem, index);
+      // this.$emit('toggleItem', todoItem, index);
+      this.$store.commit('toggleOneItem', {todoItem, index});
     }
   },
 }

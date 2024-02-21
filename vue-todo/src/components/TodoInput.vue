@@ -52,7 +52,8 @@ export default {
                 // 저장하는 로직
                 // localStorage.setItem(this.newTodoItem, this.newTodoItem);
                 // this.$emit('이벤트이름', 인자1, 인자2...)
-                this.$emit('addTodoItem', this.newTodoItem);
+                // this.$emit('addTodoItem', this.newTodoItem);
+                this.$store.commit('addOneItem', this.newTodoItem);
                 this.clearInput();
                 // this.newTodoItem = '';
             } else {
