@@ -2,7 +2,6 @@
   <div class="inputBox shadow">
     <!-- v-model: input box에 입력된 text 값을 동적으로 vue instance에 맵핑하는 역할 -->
     <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
-    <!-- <button v-on:click="addTodo">add</button> -->
     <span class="addContainer" v-on:click="addTodo">
         <i class="fas fa-plus addBtn"></i>
     </span>
@@ -47,15 +46,8 @@ export default {
     methods: {
         addTodo() {
             if(this.newTodoItem !== '') {
-                // var obj = {completed: false, item: this.newTodoItem};
-                // console.log(this.newTodoItem);
-                // 저장하는 로직
-                // localStorage.setItem(this.newTodoItem, this.newTodoItem);
-                // this.$emit('이벤트이름', 인자1, 인자2...)
-                // this.$emit('addTodoItem', this.newTodoItem);
                 this.$store.commit('addOneItem', this.newTodoItem);
                 this.clearInput();
-                // this.newTodoItem = '';
             } else {
                 this.showModal = !this.showModal;
                 console.log(this.showModal);
