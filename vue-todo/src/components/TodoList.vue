@@ -1,12 +1,11 @@
 <template>
   <div>
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem, index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
+      <li v-for="(todoItem, index) in this.storedTodoItems" v-bind:key="todoItem.item" class="shadow">
         <!-- v-bind:class="{class명: 조건}" : 조건이 true면 해당 class가 적용 -->
-        <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
+        <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete({todoItem, index})"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
-        <!-- <button v-on:click="removeTodo">delete</button> -->
-        <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
+        <span class="removeBtn" v-on:click="removeTodo({todoItem, index})">
           <i class="fas fa-trash-alt"></i>
         </span>
       </li>
@@ -15,27 +14,18 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
-  props: ['propsdata'],
   methods: {
-    removeTodo(todoItem, index) {
-      // console.log(todoItem, index);
-      // localStorage.removeItem(todoItem);
-      // this.todoItems.splice(index, 1);
-      // this.$emit('removeItem', todoItem, index);
-      this.$store.commit('removeOneItem', {todoItem, index});
-    },
-    toggleComplete(todoItem, index) {
-      // todoItem.completed = !todoItem.completed;
-      // update가 없기 때문에 지우고 다시 저장
-      // 로컬 스토리지에 데이터를 갱신
-      // localStorage.removeItem(todoItem.item);
-      // localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
-      // console.log(todoItem);
-      // this.$emit('toggleItem', todoItem, index);
-      this.$store.commit('toggleOneItem', {todoItem, index});
-    }
+    ...mapMutations({
+      removeTodo: 'removeOneItem', // map이 들어가는 helper 함수들은 인자를 선언하지 않아도 호출하는 곳에서 인자가 있으면 그걸 그대로 들고가서 넘기기 때문에 선언 불필요
+      toggleComplete: 'toggleOneItem'
+    })
   },
+  computed: {
+    ...mapGetters(['storedTodoItems'])
+  }
 }
 </script>
 
